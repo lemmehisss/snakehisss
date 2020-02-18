@@ -1,0 +1,118 @@
+# A Program by Anees Anwar
+
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+
+class Ui_MainWindow(object):
+    def setupUi(self, MainWindow):
+        MainWindow.setObjectName("MainWindow")
+        MainWindow.resize(694, 522)
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setObjectName("centralwidget")
+        self.pushButton = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton.setGeometry(QtCore.QRect(30, 210, 641, 61))
+        self.pushButton.setObjectName("pushButton")
+        self.lineEdit = QtWidgets.QLineEdit(self.centralwidget)
+        self.lineEdit.setGeometry(QtCore.QRect(200, 50, 261, 31))
+        self.lineEdit.setObjectName("lineEdit")
+        self.lineEdit_2 = QtWidgets.QLineEdit(self.centralwidget)
+        self.lineEdit_2.setGeometry(QtCore.QRect(200, 120, 261, 31))
+        self.lineEdit_2.setObjectName("lineEdit_2")
+        self.label = QtWidgets.QLabel(self.centralwidget)
+        self.label.setGeometry(QtCore.QRect(10, 60, 181, 20))
+        self.label.setObjectName("label")
+        self.label_2 = QtWidgets.QLabel(self.centralwidget)
+        self.label_2.setGeometry(QtCore.QRect(10, 130, 181, 16))
+        self.label_2.setObjectName("label_2")
+        self.label_3 = QtWidgets.QLabel(self.centralwidget)
+        self.label_3.setGeometry(QtCore.QRect(60, 300, 181, 16))
+        self.label_3.setObjectName("label_3")
+        self.label_4 = QtWidgets.QLabel(self.centralwidget)
+        self.label_4.setGeometry(QtCore.QRect(420, 300, 181, 16))
+        self.label_4.setObjectName("label_4")
+        self.textBrowser = QtWidgets.QTextBrowser(self.centralwidget)
+        self.textBrowser.setGeometry(QtCore.QRect(30, 320, 281, 61))
+        self.textBrowser.setObjectName("textBrowser")
+        self.textBrowser_2 = QtWidgets.QTextBrowser(self.centralwidget)
+        self.textBrowser_2.setGeometry(QtCore.QRect(390, 320, 281, 61))
+        self.textBrowser_2.setObjectName("textBrowser_2")
+        MainWindow.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(MainWindow)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 694, 21))
+        self.menubar.setObjectName("menubar")
+        MainWindow.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        self.statusbar.setObjectName("statusbar")
+        MainWindow.setStatusBar(self.statusbar)
+
+        self.retranslateUi(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+        self.pushButton.clicked.connect(self.addItem)
+
+    def retranslateUi(self, MainWindow):
+        _translate = QtCore.QCoreApplication.translate
+        MainWindow.setWindowTitle(_translate("MainWindow", "A Program by Anees Anwar"))
+        self.pushButton.setText(_translate("MainWindow", "Calculate Tax"))
+        self.label.setText(_translate("MainWindow", "Your Annual Income?"))
+        self.label_2.setText(_translate("MainWindow", "Any Exempted Amount?"))
+        self.label_3.setText(_translate("MainWindow", "Total Tax Deductions"))
+        self.label_4.setText(_translate("MainWindow", "Final Amount after Deductions"))
+
+    def addItem(self):
+
+        annual_income = int(self.lineEdit.text())
+        exempted_amount = int(self.lineEdit_2.text())
+        taxable_amount = annual_income - exempted_amount
+        self.lineEdit.clear()
+        self.lineEdit_2.clear()
+
+        if taxable_amount <= 250000:
+            self.textBrowser.setText("No Tax deductions for you")
+            self.textBrowser_2.setText(str(taxable_amount))
+
+        elif 250001<=taxable_amount<=500000:
+            b = int((taxable_amount-250000) * .05)
+            # health_EduCesstax = 4 %
+            total_tax = int((b + (b * 0.04 )))
+            f = taxable_amount - total_tax
+            self.textBrowser.setText(str(total_tax))
+            self.textBrowser_2.setText(str(f))
+
+
+
+        #slab 2 - 20%
+        elif 500001<=taxable_amount<=1000000:
+            y = 250000 * .05
+            b = int((taxable_amount-500000) * .2)
+            # health_EduCesstax = 4 %
+            total_tax = int(((b+y) + ((b+y) * 0.04 )))
+            f = taxable_amount - total_tax
+            self.textBrowser.setText(str(total_tax))
+            self.textBrowser_2.setText(str(f))
+
+
+
+        # slab over 10 Lakhs - 30 % 
+        else:
+            y = 250000 * .05
+            z = 500000 * .2
+            b = int((taxable_amount - 1000000 ) * .3)
+            # health_EduCesstax = 4 %
+            total_tax = int(((b+y+z) + ((b+y+z) * 0.04 )))
+            f = taxable_amount - total_tax
+            self.textBrowser.setText(str(total_tax))
+            self.textBrowser_2.setText(str(f))
+
+
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec_())
